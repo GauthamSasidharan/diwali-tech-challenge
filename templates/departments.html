@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Your Department</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="department-bg">
+<main class="department-page">
+    <section class="department-card">
+        <div class="top-avatar">
+            <img src="{{ url_for('static', filename='images/avatars/avatar3.svg') }}" alt="Avatar">
+        </div>
+        <p class="eyebrow">YOUR DIWALI SURPRISE</p>
+        <h1>Choose Your<br><span>Area of Interest</span></h1>
+        <p class="subtitle">Pick one department to reveal your lucky offer.</p>
+
+        <form action="{{ url_for('choose_department') }}" method="post" class="department-grid">
+            {% for department in departments %}
+            <button type="submit" name="department" value="{{ department }}" class="department-option">
+                <span class="dept-icon">
+                    {% if department == "IT" %}💻
+                    {% elif department == "Digital Marketing" %}📣
+                    {% elif department == "Automation" %}⚙️
+                    {% else %}🏢{% endif %}
+                </span>
+                <span>{{ department }}</span>
+                <small>SELECT →</small>
+            </button>
+            {% endfor %}
+        </form>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock Offer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="festival-bg">
+<main class="page-center">
+<section class="hero-card compact">
+    <div class="diya-mini">🪔</div>
+    <p class="eyebrow">ONE MORE STEP</p>
+    <h1>Unlock Your<br><span>Diwali Offer</span></h1>
+    <p class="subtitle">Enter your mobile number to continue.</p>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form action="{{ url_for('phone') }}" method="post" class="details-form">
+        <label>Mobile Number</label>
+        <input type="tel" name="phone" placeholder="Enter your mobile number" required maxlength="20">
+
+        <label class="consent">
+            <input type="checkbox" name="consent" value="1" required>
+            <span>I agree to be contacted regarding relevant courses and offers.</span>
+        </label>
+
+        <button class="primary-btn" type="submit">UNLOCK MY OFFER →</button>
+    </form>
+</section>
+</main>
+</body>
+</html>

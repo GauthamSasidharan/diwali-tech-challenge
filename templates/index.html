@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diwali Tech Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="festival-bg">
+<div class="floating-lights"></div>
+
+<main class="page-center">
+    <section class="hero-card">
+        <div class="diya-mini">🪔</div>
+        <p class="eyebrow">DIWALI SPECIAL</p>
+        <h1>Diwali Tech<br><span>Challenge</span></h1>
+        <p class="subtitle">Test your knowledge, meet your avatar and unlock a surprise offer!</p>
+
+        <div class="avatar-row">
+            <img src="{{ url_for('static', filename='images/avatars/avatar1.svg') }}" alt="Avatar">
+            <img src="{{ url_for('static', filename='images/avatars/avatar2.svg') }}" alt="Avatar">
+            <img src="{{ url_for('static', filename='images/avatars/avatar3.svg') }}" alt="Avatar">
+            <img src="{{ url_for('static', filename='images/avatars/avatar4.svg') }}" alt="Avatar">
+        </div>
+
+        <form action="{{ url_for('start') }}" method="post" class="details-form">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Enter your name" required maxlength="80">
+
+            <label>Educational Qualification</label>
+            <select name="qualification" required>
+                <option value="">Select qualification</option>
+                <option>Higher Secondary / +2</option>
+                <option>Diploma</option>
+                <option>ITI</option>
+                <option>UG / Bachelor's Degree</option>
+                <option>PG / Master's Degree</option>
+                <option>B.Tech / BE</option>
+                <option>M.Tech / ME</option>
+                <option>MCA</option>
+                <option>MBA</option>
+                <option>Other</option>
+            </select>
+
+            <button class="primary-btn" type="submit">START THE CHALLENGE →</button>
+        </form>
+        <p class="small-note">10 questions • Quick & fun • Diwali surprise at the end</p>
+    </section>
+</main>
+</body>
+</html>

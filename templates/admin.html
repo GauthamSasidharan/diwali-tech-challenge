@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-bg">
+<main class="admin-page">
+    <div class="admin-head">
+        <div>
+            <p class="eyebrow">ADMIN DASHBOARD</p>
+            <h1>Diwali Campaign Leads</h1>
+        </div>
+        <a class="primary-btn small-btn" href="{{ url_for('export_csv') }}">EXPORT CSV</a>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Name</th><th>Qualification</th><th>Phone</th>
+                <th>Score</th><th>Department</th><th>Offer</th><th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for lead in leads %}
+            <tr>
+                <td>{{ lead.id }}</td>
+                <td>{{ lead.name }}</td>
+                <td>{{ lead.qualification }}</td>
+                <td>{{ lead.phone }}</td>
+                <td>{{ lead.score }}/{{ lead.total }}</td>
+                <td>{{ lead.department or "—" }}</td>
+                <td>{{ lead.offer or "—" }}</td>
+                <td>{{ lead.created_at }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="8">No leads yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</main>
+</body>
+</html>

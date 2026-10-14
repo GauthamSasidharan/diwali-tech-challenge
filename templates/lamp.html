@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diwali Surprise</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="festival-bg">
+<div class="confetti"></div>
+<main class="page-center">
+<section class="reveal-card">
+    <p class="eyebrow">QUIZ COMPLETE!</p>
+    <h1>Great job! 🎉</h1>
+    {% if timed_out %}<p class="lamp-instruction">⏰ Time's up! Here's how you did.</p>{% endif %}
+    <p class="score-line">Your score: <strong>{{ score }}/{{ total }}</strong></p>
+
+    <p class="lamp-instruction">A Diwali surprise is waiting for you.</p>
+
+    <a class="lamp-button" href="{{ url_for('phone') }}" aria-label="Reveal Diwali offer">
+        <span class="lamp-flame">🔥</span>
+        <span class="lamp-body">🪔</span>
+        <span class="lamp-glow"></span>
+    </a>
+
+    <h2>TAP THE LAMP</h2>
+    <p class="small-note">Reveal your special Diwali offer</p>
+</section>
+</main>
+</body>
+</html>

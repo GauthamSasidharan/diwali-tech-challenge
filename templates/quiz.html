@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz | Diwali Tech Challenge</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="quiz-bg">
+<main class="quiz-page">
+    <header class="quiz-header">
+        <div class="brand">🪔 Diwali Tech Challenge</div>
+        <div class="counter">{{ number }} / {{ total }} &nbsp;•&nbsp; ⏱ <span id="timer">{{ seconds_left|round|int }}</span>s</div>
+    </header>
+
+    <div class="progress"><div style="width: {{ (number / total * 100) }}%"></div></div>
+
+    <section class="quiz-card">
+        <div class="quiz-avatar">
+            <img src="{{ url_for('static', filename='images/avatars/avatar' ~ ((number-1)%4+1) ~ '.svg') }}" alt="Avatar">
+        </div>
+
+        <p class="question-label">QUESTION {{ number }}</p>
+        <h1>{{ question.question }}</h1>
+
+        <form method="post" id="quizForm">
+            <input type="hidden" name="qid" value="{{ question.id }}">
+            <div class="options">
+                {% for pos, option in question.options %}
+                <label class="option">
+                    <input type="radio" name="answer" value="{{ pos }}" required>
+                    <span>{{ option }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            <button class="primary-btn" type="submit">
+                {% if number == total %}FINISH QUIZ{% else %}NEXT QUESTION →{% endif %}
+            </button>
+        </form>
+    </section>
+</main>
+<script>
+(function () {
+  var deadline = Date.now() + {{ seconds_left }} * 1000;
+  var el = document.getElementById("timer");
+  var box = el.parentElement;
+  function tick() {
+    var s = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    el.textContent = s;
+    if (s <= 10) box.classList.add("urgent");
+    if (s <= 0) { window.location.href = "{{ url_for('quiz_timeup') }}"; return; }
+    setTimeout(tick, 250);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

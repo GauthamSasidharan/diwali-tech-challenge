@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Diwali Offer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="offer-bg">
+<div class="sparkles"></div>
+<main class="page-center">
+<section class="offer-result">
+    <div class="avatar-result">
+        <img src="{{ url_for('static', filename='images/avatars/avatar4.svg') }}" alt="Avatar">
+    </div>
+    <p class="eyebrow">CONGRATULATIONS, {{ name|upper }}!</p>
+    <h1>YOU WON!</h1>
+    {% if already_played %}<p class="subtitle">You have already played with this number, so here is your original offer.</p>{% endif %}
+
+    <div class="offer-card">
+        <div class="offer-lamp">🪔</div>
+        <p class="offer-label">YOUR DIWALI OFFER</p>
+        <div class="offer-value{% if 'WORKSHOP' in offer %} small{% endif %}">{{ offer }}</div>
+        <p class="offer-dept">{{ department }}</p>
+        <p class="offer-copy">
+          {% if 'WORKSHOP' in offer %}Thanks for playing! You've unlocked a free workshop in your chosen area.
+          {% else %}Special Diwali benefit unlocked for your selected area of interest.{% endif %}
+        </p>
+    </div>
+
+    <div class="result-actions">
+        <a class="primary-btn" href="{{ whatsapp_url }}" target="_blank" rel="noopener">SHARE ON WHATSAPP</a>
+    </div>
+    <p class="small-note">Offer details and validity can be configured by the institution.</p>
+</section>
+</main>
+</body>
+</html>
