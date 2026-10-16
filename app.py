@@ -5,6 +5,7 @@ import random
 import re
 import secrets
 import time
+import requests
 import sqlite3
 from urllib.parse import quote
 from datetime import datetime
@@ -35,6 +36,7 @@ app.config.update(
 # Public address of the hosted site, e.g. https://yourname.pythonanywhere.com
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 DB = os.path.join(BASE_DIR, "campaign.db")
+GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwa6YlqlEVKuiw1qlEuFT65KEQs4RtkuTeIzWWo8Pp2GK9PFbB8SnL0Nj5hvRx6R4PI/exec"
 
 DEPARTMENTS = [
     "IT",
@@ -325,6 +327,42 @@ def choose_department():
         return redirect(url_for("index"))
     if "offer" in session:  # prevent re-rolling the offer
         return redirect(url_for("offer"))
+
+    department = request.form.get("department")
+    if department not in DEPARTMENTS:
+        abort(400)
+
+    offer = offer_for_score(session.get("score", 0))
+    conn = get_db()
+    conn.execute("UPDATE leads SET department = ?, offer = ? WHERE token = ?",
+                 (department, offer, session["token"]))
+    
+    # Lead
+    lead = conn.execute("SELECT * FROM leads WHERE token = ?", (session["token"],)).fetchone()
+    
+    conn.commit()
+    conn.close()
+
+    # Google Sheet
+    if lead:
+        payload = {
+            "name": lead["name"],
+            "qualification": lead["qualification"],
+            "phone": lead["phone"],
+            "score": lead["score"],
+            "total": lead["total"],
+            "department": department,
+            "offer": offer,
+            "created_at": lead["created_at"]
+        }
+        try:
+            requests.post(GOOGLE_SHEET_WEBHOOK_URL, json=payload, timeout=5)
+        except Exception as e:
+            print("Google Sheet Error:", e)
+
+    session["department"] = department
+    session["offer"] = offer
+    return redirect(url_for("offer"))
 
     department = request.form.get("department")
     if department not in DEPARTMENTS:
